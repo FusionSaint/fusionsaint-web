@@ -2,10 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import { sanity, q } from '../../lib/sanity';
 
-// Fetch all games (title + slug) from Sanity
 const games = await sanity.fetch(q.games).catch(() => []);
 ---
-
 <Base title="Games — FusionSaint" description="Browse all game guides on FusionSaint">
   <h1 class="text-3xl font-bold mb-6">Games</h1>
 
