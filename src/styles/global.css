@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --radius: 10px; }
+a { text-underline-offset: 2px; }
+.card { @apply rounded-brand border border-white/10 bg-white/80 backdrop-blur dark:bg-white/5; }
+.btn { @apply inline-flex items-center gap-2 rounded-brand px-4 py-2 font-medium border border-white/10; }
+.btn-primary { @apply bg-gradient-to-r from-primary to-accent text-slate-900; }

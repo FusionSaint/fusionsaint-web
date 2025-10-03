@@ -1,0 +1,22 @@
+{
+  "name": "fusionsaint-web",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^4.10.0",
+    "@astrojs/tailwind": "^5.1.0",
+    "markdown-it": "^14.1.0",
+    "@sanity/client": "^6.18.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10"
+  }
+}

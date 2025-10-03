@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { sanity, q } from '../../../lib/sanity';
+import MarkdownIt from 'markdown-it';
+const md = new MarkdownIt();
+
+export async function getStaticPaths() {
+  try {
+    const items = await sanity.fetch(`*[_type=="guide"]{ "game": game->slug.current, "slug": slug.current }`);
+    return items.map(i => ({ params: { game: i.game, slug: i.slug } }));
+  } catch {
+    return [];
+  }
+}
+
+const { game, slug } = Astro.params;
+const guide = await sanity.fetch(q.guideBySlugs, { game, slug }).catch(() => null);
+const html = guide?.bodyMd ? md.render(guide.bodyMd) : '<p>Guide not found.</p>';
+---
+<Base title={guide ? `${guide.title} — ${guide.game}` : 'Guide'}>
+  {guide ? (
+    <>
+      <h1 class="text-3xl font-bold">{guide.title}</h1>
+      <p class="opacity-70">Game: {guide.game} · Season: {guide.season} · Updated: {new Date(guide.updated).toLocaleDateString()}</p>
+      <article class="prose dark:prose-invert mt-6" set:html={html} />
+    </>
+  ) : (
+    <p>Guide not found.</p>
+  )}
+</Base>
