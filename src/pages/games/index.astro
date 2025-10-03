@@ -1,15 +1,32 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { sanity, q } from '../../lib/sanity';
-const games = await sanity.fetch(q.games).catch(() => []);
+import Base from '../../../layouts/Base.astro';
+import { sanity, q } from '../../../lib/sanity';
+
+export async function getStaticPaths() {
+  // Ask Sanity for all game slugs so Astro can prebuild /games/<game>/
+  try {
+    const games = await sanity.fetch(q.games);
+    return games.map((g) => ({ params: { game: g.slug } }));
+  } catch {
+    return [];
+  }
+}
+
+const { game } = Astro.params;
+const guides = await sanity.fetch(q.guidesForGame, { game }).catch(() => []);
 ---
-<Base title="Games — FusionSaint">
-  <h1 class="text-3xl font-bold mb-6">Games</h1>
-  {games.length === 0 ? (
-    <p class="opacity-80">No games found yet. Add a <em>Game</em> document in Sanity Studio.</p>
+<Base title={`Guides — ${game}`}>
+  <h1 class="text-3xl font-bold mb-2">Guides — {game}</h1>
+  {guides.length === 0 ? (
+    <p class="opacity-80">No guides found yet for this game.</p>
   ) : (
-    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {games.map((g) => <li class="card p-5"><a class="hover:underline" href={`/games/${g.slug}/`}>{g.title}</a></li>)}
+    <ul class="space-y-3">
+      {guides.map((g) => (
+        <li class="card p-5">
+          <a class="hover:underline font-semibold" href={`/games/${g.game}/${g.slug}/`}>{g.title}</a>
+          <p class="opacity-70 text-sm">Season: {g.season} · Updated: {new Date(g.updated).toLocaleDateString()}</p>
+        </li>
+      ))}
     </ul>
   )}
 </Base>
