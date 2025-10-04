@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "private": true,
   "type": "module",
+  "engines": { "node": ">=20.0.0" },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -11,6 +12,7 @@
   "dependencies": {
     "astro": "^4.10.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@portabletext/to-html": "^2.0.12",
     "markdown-it": "^14.1.0",
     "@sanity/client": "^6.18.2"
   },
